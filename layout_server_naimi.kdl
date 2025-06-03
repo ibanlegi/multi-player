@@ -1,0 +1,30 @@
+layout {
+    pane split_direction="vertical" {
+        pane command="python3" {
+	    	args "display.py" "-m" "-n" "3" "-p" "9000"
+		}
+        pane command="python3" {
+	    	args "display.py" "-m" "-n" "3" "-p" "9001"
+		}
+		pane command="python3" {
+	    	args "display.py" "-m" "-n" "3" "-p" "9002"
+		}
+	}
+	pane split_direction="vertical" {
+        pane command="python3" {
+	    	args "server_naimi.py" "3" "0" "9000" "9001" "9002" "8000" "8001" "8002"
+		}
+        pane command="python3" {
+	    	args "server_naimi.py" "3" "1" "9000" "9001" "9002" "8000" "8001" "8002"
+		}
+		pane command="python3" {
+	    	args "server_naimi.py" "3" "2" "9000" "9001" "9002" "8000" "8001" "8002"
+		}
+    }  
+
+
+    pane start_suspended=true borderless=true size=3 command="bash" {
+    	 args "-c" "python3 ./player.py 0 8000 & python3 ./player.py 1 8001 & python3 ./player.py 2 8002 & wait"
+	 focus true
+    }
+}
