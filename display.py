@@ -1,138 +1,114 @@
-#! /usr/bin/python3
-
-# source ./env/bin/activate
-
+#!/usr/bin/env python3
 import argparse
-
-import socket
-import sys
-import json
-import hashlib
-
 import curses
+import socket
+import json
+import random
+import hashlib
 from curses import wrapper
+from sprites_bomb import bomb_sprite, player_sprite
 
-import numpy as np
-from sprites import chest, vline, hline
-from sprites_small import chest_s, vline_s, hline_s
+BOARD_WIDTH = 10
+BOARD_HEIGHT = 10
+BOMB_DROP_DELAY = 3  # every 3 turns
 
-# 0 : chest = 1 point
-# 1 : vertical flip
-# 2 : horizontal flip
-class Board:
-    def __init__(self, size=3, nb=2, seed=42, nb_moves=10):
-        np.random.seed(seed)
-        self.delta = 5
-        self.nb_obj = 3
-        self.size = size
-        self.content = np.random.randint(self.nb_obj, size=(size, size))
-        self.timers  = np.random.randint(self.delta, size=(size, size))
-        self.nb = nb
-        self.players = [(0,0)]*self.nb
-        self.scores = [0]*self.nb
+class Game:
+    def __init__(self, nb_players=2, max_turns=10, seed=42):
+        self.nb_players = nb_players
+        self.turns = 0
+        self.max_turns = max_turns*self.nb_players
+        self.players = [(BOARD_HEIGHT - 1, i * (BOARD_WIDTH // nb_players)) for i in range(nb_players)]
+        self.scores = [0] * self.nb_players
+        self.bombs = []  # list of (x, y)
         self.logs = []
-        self.nb_moves = nb_moves*self.nb
+        random.seed(seed)
 
-    def move(self, player_id, dx, dy):
-        self.logs.append((player_id, dx, dy))
-        self.timers = np.maximum(self.timers-1, 0)
-        (x,y) = self.players[player_id]
-        (x,y) = ((x+dx) % self.size, (y+dy) % self.size)
-        self.players[player_id] = (x,y)
-        self.scores[player_id] += self.use(x, y)
-    
-    def use(self, x, y):
-        if self.timers[x, y] != 0:
-            return 0
-        self.timers[x, y] = self.delta
-        if self.content[x, y] == 0:
-            return 1
-        if self.content[x, y] == 1:
-            self.content = np.flip(self.content, axis=1)
-            self.timers = np.flip(self.timers, axis=1)
-        if self.content[x, y] == 2:
-            self.content = np.flip(self.content, axis=0)
-            self.timers = np.flip(self.timers, axis=0)
-        return 0
+    def drop_bomb(self):
+        x = 0
+        y = random.randint(0, BOARD_WIDTH - 1)
+        self.bombs.append([x, y])
 
-def put_at(screen, text, x, y):
-    for idx, line in enumerate(text.splitlines()):
-        screen.addstr(y+idx, x, line)
+    def move_player(self, pid, dx):
+        x, y = self.players[pid]
+        y = (y + dx) % BOARD_WIDTH
+        self.players[pid] = (x, y)
 
-def display_curses(board, screen):
-    dx = dimx + 4
-    dy = dimy + 4
-    size = board.size
-    delta = (dimx - 7) // 2
-    for x in range(size):
-        for y in range(size):
-            sp = sprites[board.content[x,y]]
-            put_at(screen, sp, x*dx, y*dy+1)
-            put_at(screen, "[%-5s]" % ('='*board.timers[x,y]), x*dx+delta, (y+1)*dy-3)
+    def update(self):
+        new_bombs = []
+        for x, y in self.bombs:
+            x += 1
+            if x >= BOARD_HEIGHT:
+                continue
+            caught = False
+            for pid, (px, py) in enumerate(self.players):
+                if x == px and y == py:
+                    self.scores[pid] += 1
+                    caught = True
+                    break
+            if not caught:
+                new_bombs.append([x, y])
+        self.bombs = new_bombs
 
-    for idx, (x, y) in enumerate(board.players):
-        put_at(screen, "P%d" % idx, x*dx+idx*3, y*dy)
+def draw(stdscr, game):
+    stdscr.clear()
+    board = [[" " for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
+    for x, y in game.bombs:
+        if 0 <= x < BOARD_HEIGHT and 0 <= y < BOARD_WIDTH:
+            board[x][y] = bomb_sprite
+    for idx, (x, y) in enumerate(game.players):
+        board[x][y] = str(idx)
 
-    put_at(screen, "Scores: "+str(board.scores), 0, size*dy+2)
+    for i, row in enumerate(board):
+        stdscr.addstr(i, 0, "".join(row))
+    stdscr.addstr(BOARD_HEIGHT + 1, 0, "Scores: " + str(game.scores))
+    stdscr.refresh()
 
-def tuple_recv(clientsocket):
+def recv_json(sock):
     data = ''
     while True:
-        tmp = clientsocket.recv(1024)
-        if tmp == b'':
+        part = sock.recv(1024)
+        if part == b'':
             break
-        data += tmp.decode()
+        data += part.decode()
     return json.loads(data)
 
 def main(stdscr):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serversocket:
-        serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        serversocket.bind(('', port))
-        serversocket.listen(10)
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server.bind(('', port))
+        server.listen(5)
 
-        for _ in range(board.nb_moves):
-            stdscr.clear()
-            display_curses(board, stdscr)
-            stdscr.refresh()
+        for _ in range(game.max_turns):
+            if game.turns % BOMB_DROP_DELAY == 0:
+                game.drop_bomb()
+            draw(stdscr, game)
 
-            (clientsocket, address) = serversocket.accept()
-            (player_id, x, y) = tuple_recv(clientsocket)
-            board.move(player_id, x, y)
-        
+            client, _ = server.accept()
+            move = recv_json(client)
+            pid, dx, dy = move
+            game.move_player(pid, dx)
+            game.update()
+            game.logs.append(move)
+            game.turns += 1
         stdscr.clear()
-        display_curses(board, stdscr)
+        print("END")
+        draw(stdscr, game)
         stdscr.refresh()
 
-            
-parser = argparse.ArgumentParser(
-                    prog='GUI',
-                    description='Show one player gameboard',
-)
-
+parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--port', type=int, default=9000)
-parser.add_argument('-n', '--nb', type=int, default=1)
-parser.add_argument('-m', '--mini', default=False, action='store_true')
-
+parser.add_argument('-n', '--players', type=int, default=2)
 args = parser.parse_args()
 
-port=args.port
+port = args.port
+game = Game(nb_players=args.players)
 
-if args.mini:
-    sprites = [chest_s, vline_s, hline_s]
-else:
-    sprites = [chest, vline, hline]
+wrapper(main)
+print(game.logs)
+print(game.scores)
 
-dimx = sprites[0].index('\n')
-dimy = sprites[0].count('\n')+1
-
-
-board = Board(nb=args.nb)
-wrapper(main) # To start main with graphical interface initialization
-print(board.logs)
-print(board.scores)
-
-for pos in range(args.nb):
-    for (i, _,_) in board.logs:
+for pos in range(args.players):
+    for (i, _,_) in game.logs:
         if i == pos:
             print("█", end="")
         else:
@@ -140,6 +116,6 @@ for pos in range(args.nb):
     print("")
 
 dhash = hashlib.md5()
-encoded = json.dumps(board.logs).encode()
+encoded = json.dumps(game.logs).encode()
 dhash.update(encoded)
 print(dhash.hexdigest())

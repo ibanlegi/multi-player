@@ -2,6 +2,8 @@ import sys
 import socket
 import json
 
+NB_DEP = 10
+
 def send_to(player_id, dx, dy):
     for p in ports_send:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -29,7 +31,7 @@ if __name__ == "__main__":
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.bind(('', port_listen))
         print("\n=== Start Server ===")
-        for i in range(nb_ports * 10):
+        for i in range(nb_ports * NB_DEP):
             server_socket.listen()
             client_connect, address_client = server_socket.accept()
             with client_connect:

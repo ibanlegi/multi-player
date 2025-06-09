@@ -1,13 +1,13 @@
 layout {
     pane split_direction="vertical" {
         pane command="python3" {
-	    	args "display.py" "-m" "-n" "3" "-p" "9000"
+	    	args "display.py" "-n" "3" "-p" "9000"
 		}
         pane command="python3" {
-	    	args "display.py" "-m" "-n" "3" "-p" "9001"
+	    	args "display.py" "-n" "3" "-p" "9001"
 		}
 		pane command="python3" {
-	    	args "display.py" "-m" "-n" "3" "-p" "9002"
+	    	args "display.py" "-n" "3" "-p" "9002"
 		}
 	}
 	pane split_direction="vertical" {
