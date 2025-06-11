@@ -37,5 +37,3 @@ Each player controls an avatar at the bottom of the board. On each turn:
 
 * `display.py`: manages the game server, rendering, and game logic (bomb drops, scoring, etc.).
 * `player.py`: client script used to send a player's moves.
-
----
