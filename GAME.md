@@ -1,43 +1,41 @@
-# 🎮 But du jeu : Catch the Bombs!
 
-## 🧠 Principe général
+# 🎮 Game Objective: Catch the Bombs!
 
-**Catch the Bombs!** est un jeu multijoueur tour par tour où des bombes tombent du haut d'un plateau, et les joueurs doivent se positionner pour les attraper avant qu'elles n’atteignent le bas.
+## 🧠 General Concept
 
----
+**Catch the Bombs!** is a turn-based multiplayer game where bombs fall from the top of a grid, and players must position themselves to catch them before they reach the bottom.
 
-## 🕹️ Objectif
+## 🕹️ Objective
 
-Chaque joueur contrôle un avatar en bas du plateau. À chaque tour :
+Each player controls an avatar at the bottom of the board. On each turn:
 
-* Une bombe peut être lâchée depuis le haut du plateau.
-* Les joueurs envoient un déplacement : gauche, droite ou rester sur place.
-* Les bombes tombent d’une ligne vers le bas.
+* A bomb may be dropped from the top of the board.
+* Players send a move: left, right, or stay in place.
+* Bombs fall down by one row.
 
-### 🎯 Le but :
+### 🎯 Goal:
 
-**Attraper un maximum de bombes** avant la fin du jeu.
+**Catch as many bombs as possible** before the game ends.
 
----
 
-## 🧩 Règles du jeu
+## 🧩 Game Rules
 
-* Le plateau fait **10 cases de large** et **10 lignes de haut**.
-* Le jeu se joue avec **2 joueurs ou plus**.
-* Une bombe est lâchée tous les **3 tours**.
-* Les joueurs restent sur la ligne du bas et ne peuvent se déplacer qu’à gauche ou à droite (avec wrap-around).
-* Une bombe est **attrapée** si elle atterrit sur la même case qu’un joueur.
+* The board is **10 cells wide** and **10 rows high**.
+* The game is played with **2 or more players**.
+* A bomb is dropped every **3 turns**.
+* Players remain on the bottom row and can only move left or right (with wrap-around).
+* A bomb is **caught** if it lands on the same cell as a player.
 
----
 
 ## 🔢 Scoring
 
-* Chaque bombe attrapée rapporte **1 point** au joueur.
-* Le jeu s’arrête après un nombre de tours définis : `nb_max_tours * nb_joueurs`.
+* Each caught bomb gives the player **1 point**.
+* The game ends after a total number of turns: `max_turns * number_of_players`.
+
+
+## 💻 Technical Components
+
+* `display.py`: manages the game server, rendering, and game logic (bomb drops, scoring, etc.).
+* `player.py`: client script used to send a player's moves.
 
 ---
-
-## 💻 Composants techniques
-
-* `display.py` : gère le serveur de jeu, le rendu et la logique (chute des bombes, scoring…).
-* `player.py` : script client pour envoyer les déplacements d’un joueur.
