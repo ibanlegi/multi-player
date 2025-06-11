@@ -47,8 +47,6 @@ Each player communicates only with a predefined subset (quorum) of other players
 └── zellij
 ```
 
----
-
 ### Main Files
 
 * **`GAME.md`**:
@@ -57,7 +55,6 @@ Each player communicates only with a predefined subset (quorum) of other players
 * **`README.md`**:
   Main project description file. Presents the purpose and usage of the project.
 
----
 
 ### Python Files (Game Logic and Synchronization)
 
@@ -82,21 +79,15 @@ Each player communicates only with a predefined subset (quorum) of other players
 * **`server_maekawa.py`**:
   Implements the **Maekawa algorithm**, which uses **quorums** to reduce the number of messages needed for mutual exclusion.
 
----
-
 ### Sprite Files (Display)
 
 * **`sprites.py` / `sprites_bomb.py` / `sprites_micro.py` / `sprites_small.py`**:
   Contain variables or functions defining **ASCII sprites** or characters used to represent players, bombs, etc., on the screen.
 
----
-
 ### `.kdl` Files (Configuration)
 
 * **`layout_server.kdl`** and variants (`layout_server_jeton.kdl`, etc.):
   Configuration files used to define the process/server layout for each algorithm version. The `.kdl` format structures logical topologies.
-
----
 
 ### Other
 
