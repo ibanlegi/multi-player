@@ -9,16 +9,14 @@ layout {
 		pane command="python3" {
 	    	args "display.py" "-n" "3" "-p" "9002"
 		}
-	}
-	pane split_direction="vertical" {
         pane command="python3" {
-	    	args "server_naimi.py" "3" "0" "9000" "9001" "9002" "8000" "8001" "8002"
+	    	args "./srv/server_jeton.py" "3" "0" "9000" "9001" "9002" "8000" "8001" "8002"
 		}
         pane command="python3" {
-	    	args "server_naimi.py" "3" "1" "9000" "9001" "9002" "8000" "8001" "8002"
+	    	args "./srv/server_jeton.py" "3" "1" "9000" "9001" "9002" "8000" "8001" "8002"
 		}
 		pane command="python3" {
-	    	args "server_naimi.py" "3" "2" "9000" "9001" "9002" "8000" "8001" "8002"
+	    	args "./srv/server_jeton.py" "3" "2" "9000" "9001" "9002" "8000" "8001" "8002"
 		}
     }  
 

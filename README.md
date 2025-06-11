@@ -38,11 +38,18 @@ Each player communicates only with a predefined subset (quorum) of other players
 
 ```
 .
-├── GAME.md
-├── LICENSE
 ├── README.md
-├── *.py
-├── *.kdl
+├── GAME.md
+├── layout
+│   ├── layout_server_*.kdl
+├── srv
+│   ├── server_*.py
+├── display.py
+├── player.py
+├── sprites.py
+├── sprites_bomb.py
+├── sprites_micro.py
+├── sprites_small.py
 └── zellij
 ```
 
