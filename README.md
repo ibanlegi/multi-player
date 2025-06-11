@@ -94,16 +94,12 @@ Each player communicates only with a predefined subset (quorum) of other players
 * **`zellij`**:
   File used to automate or manage terminal sessions with [Zellij](https://zellij.dev/), a terminal workspace manager.
 
----
-
 ## Running with zellij
 To run the different synchronization approaches, simply execute the following command:
 
 ```bash
 ./zellij --layout layout_server.kdl
 ```
----
-
 ## Reference
 
 * This work is inspired by content from the [Multi-player Fully Distributed Game Lab – IRIT](https://www.irit.fr/~Georges.Da-Costa/distributed-systems/), as well as lectures and guidance provided by **Georges DA-COSTA (IRIT)**.
