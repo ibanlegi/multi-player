@@ -1,38 +1,43 @@
-# 🎮 Treasure Flip - But du jeu
+# 🎮 But du jeu : Catch the Bombs!
 
-**Treasure Flip** est un jeu multijoueur en grille dans lequel chaque joueur contrôle un pion et tente de marquer un maximum de points en se déplaçant stratégiquement sur le plateau.
+## 🧠 Principe général
 
-## 🧠 Objectif
-
-Collecter le plus de **points** possible en **explorant** la grille et en **interagissant** avec les différentes cases.
-
-## 🧩 Règles du jeu
-
-- Le plateau est une grille carrée contenant différentes cases :
-  - 🪙 **Coffre** (`0`) : rapporte **+1 point** s’il est activé.
-  - 🔄 **Flip vertical** (`1`) : retourne tout le plateau **verticalement**.
-  - 🔁 **Flip horizontal** (`2`) : retourne tout le plateau **horizontalement**.
-
-- Chaque case a un **temps de recharge** (cooldown). Lorsqu’un joueur active une case, elle devient temporairement inutilisable.
-
-- Les joueurs se déplacent **en tour par tour** et peuvent se déplacer dans les 4 directions :
-  - Haut, Bas, Gauche, Droite (déplacements cycliques sur la grille).
-
-- Lorsqu’un joueur marche sur une case :
-  - Si le cooldown est à zéro, l’effet de la case est appliqué.
-  - Sinon, rien ne se passe.
-
-## 🎯 Conditions de victoire
-
-- Le jeu dure un nombre fixe de tours (`nb_moves` par joueur).
-- À la fin de la partie, le joueur avec le **score le plus élevé** gagne.
-
-## 🔒 Intégrité
-
-- Tous les déplacements sont enregistrés dans un journal.
-- Un **hash MD5** du journal permet de garantir l'intégrité de la partie.
+**Catch the Bombs!** est un jeu multijoueur tour par tour où des bombes tombent du haut d'un plateau, et les joueurs doivent se positionner pour les attraper avant qu'elles n’atteignent le bas.
 
 ---
 
-⚠️ Le plateau change dynamiquement si un joueur active un flip, ce qui peut inverser la position des objets et joueurs. **Anticipez bien vos mouvements !**
+## 🕹️ Objectif
 
+Chaque joueur contrôle un avatar en bas du plateau. À chaque tour :
+
+* Une bombe peut être lâchée depuis le haut du plateau.
+* Les joueurs envoient un déplacement : gauche, droite ou rester sur place.
+* Les bombes tombent d’une ligne vers le bas.
+
+### 🎯 Le but :
+
+**Attraper un maximum de bombes** avant la fin du jeu.
+
+---
+
+## 🧩 Règles du jeu
+
+* Le plateau fait **10 cases de large** et **10 lignes de haut**.
+* Le jeu se joue avec **2 joueurs ou plus**.
+* Une bombe est lâchée tous les **3 tours**.
+* Les joueurs restent sur la ligne du bas et ne peuvent se déplacer qu’à gauche ou à droite (avec wrap-around).
+* Une bombe est **attrapée** si elle atterrit sur la même case qu’un joueur.
+
+---
+
+## 🔢 Scoring
+
+* Chaque bombe attrapée rapporte **1 point** au joueur.
+* Le jeu s’arrête après un nombre de tours définis : `nb_max_tours * nb_joueurs`.
+
+---
+
+## 💻 Composants techniques
+
+* `display.py` : gère le serveur de jeu, le rendu et la logique (chute des bombes, scoring…).
+* `player.py` : script client pour envoyer les déplacements d’un joueur.
