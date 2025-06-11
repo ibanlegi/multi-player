@@ -16,6 +16,8 @@
 ## Project Description
 The objective of the project is to implement several synchronization algorithms. To achieve this, we use a small multiplayer game. The files `player.py` and `display.py` do not handle synchronization between players, which leads to a final state where each player has a different view of the results. Therefore, several algorithms have been implemented to solve this problem.
 
+The game’s rules and explanations are detailed in the [`GAME.md`](./GAME.md) file.
+
 ### Algorithm used
 - Centralized approach:
 A single coordinator is responsible for granting access to the critical section. Players must request permission from this central authority before making a move.
