@@ -4,9 +4,6 @@
 ### Université de Toulouse / Faculté des Sciences et de l'Ingénieur
 ### 2024–2025 Academic year
 
-## Authors
-- <a href="https://github.com/ibanlegi"><img src="https://github.com/ibanlegi.png" width="25" height="25" style="border-radius: 50%; vertical-align: middle;"/></a> LEGINYORA Iban
-
 ## Table of Contents
 1. [Project Description](#project-description)
 2. [Files Description](#files-description)
