@@ -108,7 +108,7 @@ To run the different synchronization approaches, simply execute the following co
 ```
 ## Reference
 
-* This work is inspired by content from the [Multi-player Fully Distributed Game Lab – IRIT](https://www.irit.fr/~Georges.Da-Costa/distributed-systems/), as well as lectures and guidance provided by **Georges DA-COSTA (IRIT)**.
+* This work is inspired by content from the [Multi-player Fully Distributed Game Lab – IRIT](https://www.irit.fr/~Georges.Da-Costa/distributed-systems/), as well as lectures and guidance provided by **DA-COSTA Georges (IRIT)**.
 
 * [Ricart–Agrawala Algorithm – Wikipedia](https://en.wikipedia.org/wiki/Ricart%E2%80%93Agrawala_algorithm)
 
