@@ -4,13 +4,14 @@
 ### Université de Toulouse / Faculté des Sciences et de l'Ingénieur
 ### 2024–2025 Academic year
 
-## Table of Contents
-1. [Project Description](#project-description)
-2. [Files Description](#files-description)
+## Table of contents
+1. [Project description](#project-description)
+2. [Files description](#files-description)
 3. [Running with zellij](#running-with-zellij)
-4. [Reference](#reference)
+4. [Algorithmic complexity reference](#algorithmic-complexity-reference)
+5. [Reference](#reference)
 
-## Project Description
+## Project description
 The objective of the project is to implement several synchronization algorithms. To achieve this, we use a small multiplayer game. The files `player.py` and `display.py` do not handle synchronization between players, which leads to a final state where each player has a different view of the results. Therefore, several algorithms have been implemented to solve this problem.
 
 The game’s rules and explanations are detailed in the [`GAME.md`](./GAME.md) file.
@@ -32,7 +33,7 @@ An optimized token-based method where the token is passed along a dynamic logica
 Each player communicates only with a predefined subset (quorum) of other players. Mutual exclusion is achieved when all members of the quorum grant permission, minimizing communication overhead.
 
 
-## Files Description
+## Files description
 
 ### Project Structure
 
@@ -40,6 +41,7 @@ Each player communicates only with a predefined subset (quorum) of other players
 .
 ├── README.md
 ├── GAME.md
+├── EXPLANATION.md
 ├── layout
 │   ├── layout_server_*.kdl
 ├── srv
@@ -60,6 +62,10 @@ Each player communicates only with a predefined subset (quorum) of other players
 
 * **`README.md`**:
   Main project description file. Presents the purpose and usage of the project.
+
+* **`EXPLANATION.md`**:
+  This file summarizes five algorithms with their termination methods, complexity, and related code.
+
 
 
 ### Python Files (Game Logic and Synchronization)
@@ -106,6 +112,11 @@ To run the different synchronization approaches, simply execute the following co
 ```bash
 ./zellij --layout layout_server.kdl
 ```
+
+## Algorithmic complexity reference
+For a detailed study of the termination conditions and theoretical message complexity of the synchronization algorithms implemented in this project, please refer to the [EXPLANATION.md](./EXPLANATION.md).
+
+
 ## Reference
 
 * This work is inspired by content from the [Multi-player Fully Distributed Game Lab – IRIT](https://www.irit.fr/~Georges.Da-Costa/distributed-systems/), as well as lectures and guidance provided by **Georges DA-COSTA (IRIT)**.
