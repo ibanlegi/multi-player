@@ -18,8 +18,6 @@ Uses a `for` loop that stops when the total number of moves (`nb_process * 10`) 
 * **Messages exchanged for 3 players:**
   `3 + 3 × 10 × 3 = 93` messages
 
----
-
 ## 2. Token Ring Algorithm
 
 ### **Associated Files**
@@ -42,8 +40,6 @@ A server detects inactivity after 2 seconds and sends a `STOP` message to its ne
   * `3` `STOP` messages
     **Total: 67 messages**
 
----
-
 ## 3. Ricart–Agrawala Algorithm
 
 ### **Associated Files**
@@ -61,8 +57,6 @@ Each server increments an action counter. When it reaches 10, it sends a `STOP` 
 * **Messages exchanged for 3 players:**
   `3 × (2 + 2 + 2 + 10 × 2) = 78` messages
 
----
-
 ## 4. Naimi–Trehel Algorithm
 
 ### **Associated Files**
@@ -79,8 +73,6 @@ Each move sent increments a counter. The counter is transmitted with the token. 
 * **Notation:** `O(N × P)`
 * **Messages exchanged for 3 players:**
   `3 × 11 = 33` messages
-
----
 
 ## 5. Maekawa Algorithm
 
