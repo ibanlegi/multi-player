@@ -126,6 +126,3 @@ For a detailed study of the termination conditions and theoretical message compl
 * [Naimi–Trehel Algorithm – French Wikipedia](https://fr.wikipedia.org/wiki/Algorithme_de_Naimi-Trehel)
 
 * [Maekawa's Algorithm – French Wikipedia](https://fr.wikipedia.org/wiki/Algorithme_de_Maekawa)
-
----
-
